@@ -71,7 +71,14 @@ var pokemonList = {
   "Beedrill": ["beedrill", "bee", "drill"],
   "Pidgey": ["pidgey", "pid", "gey"],
   "Pidgeotto": ["pidgeotto", "pidgeo", "to"],
-  "Pidgeot": ["pidgeot", "pid", "geot"]
+  "Pidgeot": ["pidgeot", "pid", "geot"],
+  "Rattata": ["rattata", "rat", "tata", "ta"],
+  "Raticate": ["raticate", "rat", "cate"],
+  "Spearow": ["spearow", "spear", "row"],
+  "Fearow": ["fearow", "fear", "row"],
+  "Ekans": ["ekans", "ek", "kans", "sss"],
+  "Arbok": ["arbok", "ar", "bok"],
+  "Pikachu": ["pikachu", "pi", "pika", "chu"]
 }
 
 var pokemonListLength = Object.keys(pokemonList).length
