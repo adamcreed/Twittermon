@@ -1,0 +1,19 @@
+{
+  "name": "Twittermon",
+  "description": "An extension to convert tweets into Pokéspeak",
+  "version": "1.0",
+  "manifest_version":2,
+  "background":
+    {
+      "scripts": ["poketweet.js"]
+    },
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Twittermon"
+  },
+
+    "permissions": [
+      "activeTab"
+    ]
+}
