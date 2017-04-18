@@ -21,5 +21,5 @@ If you'd like to contribute, whether it's tweaking features or adding pokemon to
 
 Pokemon is owned by The Pokemon Company and Nintendo/Creatures/Game Freak.
 
-Adam Reed – [GitHub](https://github.com/adamcreed/)
+Adam Reed – [GitHub Pages](https://adamcreed.github.io/)
  – <kusa.xisa@gmail.com>
