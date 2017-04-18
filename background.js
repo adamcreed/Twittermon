@@ -24,6 +24,18 @@ function getName(fullname, pokemonList, pokemonListLength) {
   }
 }
 
+function replaceText(text, user) {
+  var phrases = pokemonList[user]
+
+  var newText = capitalizeFirstLetter(randomPhrase(phrases)) + ' '
+
+  while (text.length > newText.length) {
+    newText += randomPhrase(phrases) + ' '
+  }
+
+  return newText
+}
+
 /**
  * Get the closest matching element up the DOM tree.
  * @private
@@ -31,7 +43,7 @@ function getName(fullname, pokemonList, pokemonListLength) {
  * @param  {String}  selector Selector to match against
  * @return {Boolean|Element}  Returns null if not match found
  */
-var getClosest = function ( elem, selector ) {
+function getClosest(elem, selector) {
   // Element.matches() polyfill
   if (!Element.prototype.matches) {
     Element.prototype.matches =
@@ -84,34 +96,30 @@ var pokemonList = {
 var pokemonListLength = Object.keys(pokemonList).length
 
 var tweets = document.getElementsByClassName('tweet-text'),
-  retweets = document.querySelectorAll('[data-retweet-id] .tweet-text'),
   tags = document.getElementsByClassName('twitter-hashtag'),
   users = document.querySelectorAll('.fullname, .ProfileHeaderCard-nameLink, .js-retweet-text .js-user-profile-link'),
   hashtags = {}
 
+for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
+  var fullname = users[usersIndex].innerText
+  users[usersIndex].innerText = getName(fullname, pokemonList, pokemonListLength)
+}
+
 for (var tweetsIndex = 0; tweetsIndex < tweets.length; tweetsIndex++) {
   var tweet = tweets[tweetsIndex]
-  var childCount = tweet.childElementCount
+  var user = getClosest(tweet, '.content').querySelector('.fullname').innerText
+  var childCount = tweet.childNodes.length
+
+  if (childCount == 0) {
+    tweet.innerText = replaceText(tweet.innerText, user)
+  }
 
   for (var childIndex = 0; childIndex < childCount; childIndex++) {
     var node = tweet.childNodes[childIndex]
     if (node.nodeType == 3) {
-      var text = node.nodeValue.replace(/\"/g, '&quot;')
-      span = Object.assign(document.createElement('span'), {
-	       className: 'regular-text',
-	       innerHTML: text
-      })
-
-      tweet.replaceChild(span, node)
+      node.nodeValue = replaceText(node.nodeValue, user)
     }
   }
-}
-
-var regularTextNodes = document.getElementsByClassName('regular-text')
-
-for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
-  var fullname = users[usersIndex].innerText
-  users[usersIndex].innerText = getName(fullname, pokemonList, pokemonListLength)
 }
 
 for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
@@ -135,32 +143,4 @@ for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
   }
 
   tag.innerText = "#" + hashtags[user][tagText] + ' '
-}
-
-for (var textIndex = 0; textIndex < regularTextNodes.length; textIndex++) {
-  var textNode = regularTextNodes[textIndex]
-  var user = getClosest(textNode, '.content').querySelector('.fullname').innerText
-  var text = textNode.innerText
-  var phrases = pokemonList[user]
-
-  var newText = capitalizeFirstLetter(randomPhrase(phrases)) + ' '
-
-  while (text.length > newText.length) {
-    newText += randomPhrase(phrases) + ' '
-  }
-  textNode.innerText = newText
-}
-
-for (var retweetsIndex = 0; retweetsIndex < retweets.length; retweetsIndex++) {
-  var retweet = retweets[textIndex]
-  var user = getClosest(retweet, '.content').querySelector('.fullname').innerText
-  var text = retweet.innerText
-  var phrases = pokemonList[user]
-
-  var newText = capitalizeFirstLetter(randomPhrase(phrases)) + ' '
-
-  while (text.length > newText.length) {
-    newText += randomPhrase(phrases) + ' '
-  }
-  retweet.innerText = newText
 }
