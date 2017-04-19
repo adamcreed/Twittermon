@@ -77,6 +77,8 @@ for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
 
 for (var tweetsIndex = 0; tweetsIndex < tweets.length; tweetsIndex++) {
   var tweet = tweets[tweetsIndex]
+  if (tweet.classList.contains('pika-pika')) { continue }
+
   var user = getClosest(tweet, '.content').querySelector('.fullname').innerText
   var childCount = tweet.childNodes.length
 
@@ -90,10 +92,13 @@ for (var tweetsIndex = 0; tweetsIndex < tweets.length; tweetsIndex++) {
       node.nodeValue = replaceText(node.nodeValue, user)
     }
   }
+  tweet.classList.add('pika-pika')
 }
 
 for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
   var tag = tags[tagsIndex]
+  if (tag.classList.contains('pika-pika')) { continue }
+
   var tagText = tag.innerText
   var user = getClosest(tag, '.content').querySelector('.fullname').innerText
 
@@ -113,4 +118,5 @@ for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
   }
 
   tag.innerText = "#" + hashtags[user][tagText] + ' '
+  tag.classList.add('pika-pika')
 }
