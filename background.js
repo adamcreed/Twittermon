@@ -36,6 +36,84 @@ function replaceText(text, user) {
   return newText
 }
 
+function renameUsers() {
+  var users = document.querySelectorAll('.fullname, .ProfileHeaderCard-nameLink, \
+                                        .js-retweet-text .js-user-profile-link')
+
+  for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
+    var fullname = users[usersIndex].innerText
+    users[usersIndex].innerText = getName(fullname, pokemonList, pokemonListLength)
+  }
+}
+
+function translateTweets() {
+  var tweets = document.getElementsByClassName('tweet-text')
+
+  for (var tweetsIndex = 0; tweetsIndex < tweets.length; tweetsIndex++) {
+    var tweet = tweets[tweetsIndex]
+    if (tweet.classList.contains('pika-pika')) { continue }
+
+    replaceTweet(tweet)
+  }
+}
+
+function replaceTweet(tweet) {
+  var user = getClosest(tweet, '.content').querySelector('.fullname').innerText
+  var childCount = tweet.childNodes.length
+
+  if (childCount == 0) {
+    tweet.innerText = replaceText(tweet.innerText, user)
+  }
+
+  for (var childIndex = 0; childIndex < childCount; childIndex++) {
+    checkNode(tweet, user, childIndex)
+  }
+  tweet.classList.add('pika-pika')
+}
+
+function checkNode(tweet, user, childIndex) {
+  var node = tweet.childNodes[childIndex]
+  if (node.nodeType == 3) {
+    node.nodeValue = replaceText(node.nodeValue, user)
+  }
+}
+
+function translateTags() {
+  var tags = document.getElementsByClassName('twitter-hashtag'),
+  hashtags = {}
+
+  for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
+    replaceTag(tags[tagsIndex], hashtags)
+  }
+}
+
+function replaceTag(tag, hashtags) {
+  if (tag.classList.contains('pika-pika')) { return }
+
+  var tagText = tag.innerText
+  var user = getClosest(tag, '.content').querySelector('.fullname').innerText
+
+  if (hashtags[user] === undefined) { hashtags[user] = {} }
+
+  if (hashtags[user][tagText] === undefined) {
+    hashtags[user][tagText] = getNewTag(tagText, user)
+  }
+
+  tag.innerText = "#" + hashtags[user][tagText] + ' '
+  tag.classList.add('pika-pika')
+}
+
+function getNewTag(tagText, user) {
+  var phrases = pokemonList[user]
+  var newTag = ''
+
+  while (tagText.length > newTag.length) {
+    newTag += capitalizeFirstLetter(randomPhrase(phrases))
+  }
+
+  return newTag
+}
+
 /**
  * Get the closest matching element up the DOM tree.
  * @private
@@ -62,61 +140,12 @@ function getClosest(elem, selector) {
   }
 
   return null;
-};
-
-// main js
-var tweets = document.getElementsByClassName('tweet-text'),
-  tags = document.getElementsByClassName('twitter-hashtag'),
-  users = document.querySelectorAll('.fullname, .ProfileHeaderCard-nameLink, .js-retweet-text .js-user-profile-link'),
-  hashtags = {}
-
-for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
-  var fullname = users[usersIndex].innerText
-  users[usersIndex].innerText = getName(fullname, pokemonList, pokemonListLength)
 }
 
-for (var tweetsIndex = 0; tweetsIndex < tweets.length; tweetsIndex++) {
-  var tweet = tweets[tweetsIndex]
-  if (tweet.classList.contains('pika-pika')) { continue }
-
-  var user = getClosest(tweet, '.content').querySelector('.fullname').innerText
-  var childCount = tweet.childNodes.length
-
-  if (childCount == 0) {
-    tweet.innerText = replaceText(tweet.innerText, user)
-  }
-
-  for (var childIndex = 0; childIndex < childCount; childIndex++) {
-    var node = tweet.childNodes[childIndex]
-    if (node.nodeType == 3) {
-      node.nodeValue = replaceText(node.nodeValue, user)
-    }
-  }
-  tweet.classList.add('pika-pika')
+function main() {
+  renameUsers()
+  translateTweets()
+  translateTags()
 }
 
-for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
-  var tag = tags[tagsIndex]
-  if (tag.classList.contains('pika-pika')) { continue }
-
-  var tagText = tag.innerText
-  var user = getClosest(tag, '.content').querySelector('.fullname').innerText
-
-  if (hashtags[user] == undefined) {
-    hashtags[user] = {}
-  }
-
-  if (hashtags[user][tagText] == undefined) {
-    var phrases = pokemonList[user]
-    var newTag = ''
-
-    while (tagText.length > newTag.length) {
-      newTag += capitalizeFirstLetter(randomPhrase(phrases))
-    }
-
-    hashtags[user][tagText] = newTag
-  }
-
-  tag.innerText = "#" + hashtags[user][tagText] + ' '
-  tag.classList.add('pika-pika')
-}
+main()
