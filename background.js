@@ -1,39 +1,7 @@
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
-
-function ascii (a) {
-  return a.charCodeAt(0);
-}
-
-function add(a, b) {
-    return a + b
-}
-
-function randomPhrase(phrases) {
-  return phrases[phrases.length * Math.random() << 0]
-}
-
-function getName(fullname, pokemonList, pokemonListLength) {
-  if (pokemonList[fullname] !== undefined) {
-    return fullname
-  } else {
-    var keys = Object.keys(pokemonList)
-    var pokemonNumber = fullname.split('').map(ascii).reduce(add, 0) % pokemonListLength
-    return capitalizeFirstLetter(pokemonList[keys[pokemonNumber]][0])
-  }
-}
-
-function replaceText(text, user) {
-  var phrases = pokemonList[user]
-
-  var newText = capitalizeFirstLetter(randomPhrase(phrases)) + ' '
-
-  while (text.length > newText.length) {
-    newText += randomPhrase(phrases) + ' '
-  }
-
-  return newText
+function main() {
+  renameUsers()
+  translateTweets()
+  translateTags()
 }
 
 function renameUsers() {
@@ -43,6 +11,16 @@ function renameUsers() {
   for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
     var fullname = users[usersIndex].innerText
     users[usersIndex].innerText = getName(fullname, pokemonList, pokemonListLength)
+  }
+}
+
+function getName(fullname, pokemonList, pokemonListLength) {
+  if (pokemonList[fullname] !== undefined) {
+    return fullname
+  } else {
+    var keys = Object.keys(pokemonList)
+    var pokemonNumber = fullname.split('').map(ascii).reduce(add, 0) % pokemonListLength
+    return capitalizeFirstLetter(pokemonList[keys[pokemonNumber]][0])
   }
 }
 
@@ -71,11 +49,27 @@ function replaceTweet(tweet) {
   tweet.classList.add('pika-pika')
 }
 
+function replaceText(text, user) {
+  var phrases = pokemonList[user]
+
+  var newText = capitalizeFirstLetter(randomPhrase(phrases)) + ' '
+
+  while (text.length > newText.length) {
+    newText += randomPhrase(phrases) + ' '
+  }
+
+  return newText
+}
+
 function checkNode(tweet, user, childIndex) {
   var node = tweet.childNodes[childIndex]
   if (node.nodeType == 3) {
     node.nodeValue = replaceText(node.nodeValue, user)
   }
+}
+
+function randomPhrase(phrases) {
+  return phrases[phrases.length * Math.random() << 0]
 }
 
 function translateTags() {
@@ -114,6 +108,18 @@ function getNewTag(tagText, user) {
   return newTag
 }
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+function ascii (a) {
+  return a.charCodeAt(0);
+}
+
+function add(a, b) {
+    return a + b
+}
+
 /**
  * Get the closest matching element up the DOM tree.
  * @private
@@ -140,12 +146,6 @@ function getClosest(elem, selector) {
   }
 
   return null;
-}
-
-function main() {
-  renameUsers()
-  translateTweets()
-  translateTags()
 }
 
 main()
