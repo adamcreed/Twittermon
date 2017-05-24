@@ -10,7 +10,7 @@ var pokemonList = {
   "Blastoise": ["blastoise", "blast", "toise"],
   "Caterpie": ["caterpie", "ca", "cater", "pi"],
   "Metapod": ["metapod", "me", "meta", "pod"],
-  "Butterfree": ["butterfree", "free", "ee"],
+  "Butterfree": ["free", "ee"],
   "Weedle": ["weedle", "weed"],
   "Kakuna": ["kakuna", "ka", "ku", "na"],
   "Beedrill": ["beedrill", "bee", "drill"],
