@@ -135,7 +135,21 @@ var pokemonList = {
   'Vaporeon': ['vaporeon', 'va', 'por', 'vapor', 'eon'],
   'Jolteon': ['jolteon', 'jolt', 'eon'],
   'Flareon': ['flareon', 'flare', 'eon'],
-  'Porygon': ['this space intentionally left blank']
+  'Porygon': ['this space intentionally left blank'],
+  'Omanyte': ['omanyte', 'oma', 'nyte'],
+  'Omastar': ['omastar', 'oma', 'star'],
+  'Kabuto': ['kabuto', 'ka', 'bu', 'to'],
+  'Kabutops': ['kabutops', 'ka', 'bu', 'tops'],
+  'Aerodactyl': ['aerodactyl', 'aero', 'dac', 'tyl', 'dactyl'],
+  'Snorlax': ['snorlax', 'snor', 'lax'],
+  'Articuno': ['articuno', 'ar', 'tic', 'artic', 'uno'],
+  'Zapdos': ['zapdos', 'zap', 'dos'],
+  'Moltres': ['moltres', 'mol', 'tres'],
+  'Dratini': ['dratini', 'dra', 'ti', 'ni', 'tini'],
+  'Dragonair': ['dragonair', 'dra', 'gon', 'dragon', 'air'],
+  'Dragonite': ['dragonite', 'dra', 'gon', 'dragon', 'ite'],
+  'Mewtwo': ['this space intentionally left blank'],
+  'Mew': ['mew']
 }
 
 var pokemonListLength = Object.keys(pokemonList).length
