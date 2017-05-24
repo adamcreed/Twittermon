@@ -18,9 +18,9 @@ function getName(fullname, pokemonList, pokemonListLength) {
   if (pokemonList[fullname] !== undefined) {
     return fullname
   } else {
-    var keys = Object.keys(pokemonList)
+    var names = Object.keys(pokemonList)
     var pokemonNumber = fullname.split('').map(ascii).reduce(add, 0) % pokemonListLength
-    return capitalizeFirstLetter(pokemonList[keys[pokemonNumber]][0])
+    return names[pokemonNumber]
   }
 }
 
