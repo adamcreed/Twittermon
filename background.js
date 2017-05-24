@@ -15,7 +15,7 @@ function renameUsers() {
 }
 
 function getName(fullname, pokemonList, pokemonListLength) {
-  if (pokemonList[fullname] !== undefined) {
+  if (pokemonList[fullname]) {
     return fullname
   } else {
     var names = Object.keys(pokemonList)
@@ -101,9 +101,9 @@ function replaceTag(tag, hashtags) {
 
   var tagText = tag.innerText
 
-  if (hashtags[user] === undefined) { hashtags[user] = {} }
+  if (!hashtags[user]) { hashtags[user] = {} }
 
-  if (hashtags[user][tagText] === undefined) {
+  if (!hashtags[user][tagText]) {
     hashtags[user][tagText] = getNewTag(tagText, user)
   }
 
