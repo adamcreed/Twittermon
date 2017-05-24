@@ -15,9 +15,11 @@ If you'd like to contribute, whether it's tweaking features or adding pokemon to
 ## Release History
 
 * 0.1.0
-    * Initial release
+    * Initial release.
 * 0.2.0
     * Fixed issue of some tweets getting partially converted and added a check to skip previously converted tweets upon reclicking the button.
+* 0.9.0
+    * Added all of the original 151 to the list.
 
 ## About / Contact
 
