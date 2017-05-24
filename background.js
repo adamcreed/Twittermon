@@ -19,9 +19,13 @@ function getName(fullname, pokemonList, pokemonListLength) {
     return fullname
   } else {
     var names = Object.keys(pokemonList)
-    var pokemonNumber = fullname.split('').map(ascii).reduce(add, 0) % pokemonListLength
+    var pokemonNumber = getPokemonNumber(fullname, pokemonListLength)
     return names[pokemonNumber]
   }
+}
+
+function getPokemonNumber(fullname, pokemonListLength) {
+  return fullname.split('').map(ascii).reduce(add, 0) % pokemonListLength
 }
 
 function translateTweets() {
