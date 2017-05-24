@@ -130,7 +130,12 @@ var pokemonList = {
   'Magikarp': ['magikarp', 'karp'],
   'Gyarados': ['gyarados', 'gyar', 'dos'],
   'Lapras': ['lapras', 'lap', 'ras'],
-  'Ditto': ['ditto', 'di', 'tto']
+  'Ditto': ['ditto', 'di', 'tto'],
+  'Eevee': ['eevee', 'ee', 'vee'],
+  'Vaporeon': ['vaporeon', 'va', 'por', 'vapor', 'eon'],
+  'Jolteon': ['jolteon', 'jolt', 'eon'],
+  'Flareon': ['flareon', 'flare', 'eon'],
+  'Porygon': ['this space intentionally left blank']
 }
 
 var pokemonListLength = Object.keys(pokemonList).length
