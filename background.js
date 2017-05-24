@@ -10,21 +10,21 @@ function renameUsers() {
 
   for (var usersIndex = 0; usersIndex < users.length; usersIndex++) {
     var fullname = users[usersIndex].innerText
-    users[usersIndex].innerText = getName(fullname, pokemonList, pokemonListLength)
+    users[usersIndex].innerText = getName(fullname)
   }
 }
 
-function getName(fullname, pokemonList, pokemonListLength) {
+function getName(fullname) {
   if (pokemonList[fullname]) {
     return fullname
   } else {
     var names = Object.keys(pokemonList)
-    var pokemonNumber = getPokemonNumber(fullname, pokemonListLength)
+    var pokemonNumber = getPokemonNumber(fullname)
     return names[pokemonNumber]
   }
 }
 
-function getPokemonNumber(fullname, pokemonListLength) {
+function getPokemonNumber(fullname) {
   return fullname.split('').map(ascii).reduce(add, 0) % pokemonListLength
 }
 
@@ -41,6 +41,11 @@ function translateTweets() {
 
 function replaceTweet(tweet) {
   var user = getClosest(tweet, '.content').querySelector('.fullname').innerText
+
+  if (user === 'Ditto') {
+    user = transformDitto(tweet)
+  }
+
   if (pokemonCanTalk(user)) { return }
 
   var childCount = tweet.childNodes.length
@@ -54,6 +59,16 @@ function replaceTweet(tweet) {
   }
 
   tweet.classList.add('pika-pika')
+}
+
+function transformDitto(tweet) {
+  var names = Object.keys(pokemonList)
+  var pokemonNumber = Math.floor(Math.random() * pokemonListLength)
+  var pokemon = names[pokemonNumber]
+
+  tweet.setAttribute('copy', pokemon)
+
+  return pokemon
 }
 
 function pokemonCanTalk(user) {
@@ -97,6 +112,11 @@ function translateTags() {
 
 function replaceTag(tag, hashtags) {
   var user = getClosest(tag, '.content').querySelector('.fullname').innerText
+
+  if (user === 'Ditto') {
+    user = findCopy(tag)
+  }
+
   if (pokemonCanTalk(user)) { return }
 
   var tagText = tag.innerText.toLowerCase()
@@ -109,6 +129,11 @@ function replaceTag(tag, hashtags) {
 
   tag.innerText = "#" + hashtags[user][tagText] + ' '
   tag.classList.add('pika-pika')
+}
+
+function findCopy(tag) {
+  var tweet = getClosest(tag, '.content').querySelector('.tweet-text')
+  return tweet.getAttribute('copy')
 }
 
 function getNewTag(tagText, user) {
