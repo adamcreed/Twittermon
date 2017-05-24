@@ -99,7 +99,7 @@ function replaceTag(tag, hashtags) {
   var user = getClosest(tag, '.content').querySelector('.fullname').innerText
   if (pokemonCanTalk(user)) { return }
 
-  var tagText = tag.innerText
+  var tagText = tag.innerText.toLowerCase()
 
   if (!hashtags[user]) { hashtags[user] = {} }
 
