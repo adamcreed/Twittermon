@@ -41,6 +41,8 @@ function translateTweets() {
 
 function replaceTweet(tweet) {
   var user = getClosest(tweet, '.content').querySelector('.fullname').innerText
+  if (pokemonCanTalk(user)) { return }
+
   var childCount = tweet.childNodes.length
 
   if (childCount == 0) {
@@ -50,7 +52,12 @@ function replaceTweet(tweet) {
   for (var childIndex = 0; childIndex < childCount; childIndex++) {
     checkNode(tweet, user, childIndex)
   }
+
   tweet.classList.add('pika-pika')
+}
+
+function pokemonCanTalk(user) {
+  return user === "Meowth" || user === "Mewtwo"
 }
 
 function replaceText(text, user) {
@@ -81,15 +88,18 @@ function translateTags() {
   hashtags = {}
 
   for (var tagsIndex = 0; tagsIndex < tags.length; tagsIndex++) {
+    var tag = tags[tagsIndex]
+    if (tag.classList.contains('pika-pika')) { continue }
+
     replaceTag(tags[tagsIndex], hashtags)
   }
 }
 
 function replaceTag(tag, hashtags) {
-  if (tag.classList.contains('pika-pika')) { return }
+  var user = getClosest(tag, '.content').querySelector('.fullname').innerText
+  if (pokemonCanTalk(user)) { return }
 
   var tagText = tag.innerText
-  var user = getClosest(tag, '.content').querySelector('.fullname').innerText
 
   if (hashtags[user] === undefined) { hashtags[user] = {} }
 
