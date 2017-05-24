@@ -46,16 +46,22 @@ function replaceTweet(tweet) {
     user = transformDitto(tweet)
   }
 
+  if (user === 'Porygon') {
+    textTransformer = function (text, user) { return convertBinary(text, user) }
+  } else {
+    textTransformer = function (text, user) { return replaceText(text, user) }
+  }
+
   if (pokemonCanTalk(user)) { return }
 
   var childCount = tweet.childNodes.length
 
   if (childCount == 0) {
-    tweet.innerText = replaceText(tweet.innerText, user)
+    tweet.innerText = textTransformer(tweet.innerText, user)
   }
 
   for (var childIndex = 0; childIndex < childCount; childIndex++) {
-    checkNode(tweet, user, childIndex)
+    checkNode(tweet, user, childIndex, textTransformer)
   }
 
   tweet.classList.add('pika-pika')
@@ -69,6 +75,16 @@ function transformDitto(tweet) {
   tweet.setAttribute('copy', pokemon)
 
   return pokemon
+}
+
+function convertBinary(text, user) {
+  var binary = ""
+
+  for (var i = 0; i < text.length; i++) {
+    binary += text[i].charCodeAt(0).toString(2) + " "
+  }
+
+  return binary
 }
 
 function pokemonCanTalk(user) {
@@ -87,10 +103,10 @@ function replaceText(text, user) {
   return newText
 }
 
-function checkNode(tweet, user, childIndex) {
+function checkNode(tweet, user, childIndex, textTransformer) {
   var node = tweet.childNodes[childIndex]
   if (node.nodeType == 3) {
-    node.nodeValue = replaceText(node.nodeValue, user)
+    node.nodeValue = textTransformer(node.nodeValue, user)
   }
 }
 
@@ -117,6 +133,12 @@ function replaceTag(tag, hashtags) {
     user = findCopy(tag)
   }
 
+  if (user === 'Porygon') {
+    textTransformer = function (text, user) { return convertBinary(text, user) }
+  } else {
+    textTransformer = function (text, user) { return getNewTag(text, user) }
+  }
+
   if (pokemonCanTalk(user)) { return }
 
   var tagText = tag.innerText.toLowerCase()
@@ -124,7 +146,7 @@ function replaceTag(tag, hashtags) {
   if (!hashtags[user]) { hashtags[user] = {} }
 
   if (!hashtags[user][tagText]) {
-    hashtags[user][tagText] = getNewTag(tagText, user)
+    hashtags[user][tagText] = textTransformer(tagText, user)
   }
 
   tag.innerText = "#" + hashtags[user][tagText] + ' '
